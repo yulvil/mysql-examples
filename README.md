@@ -1,2 +1,23 @@
 mysql-examples
 ==============
+
+### Modify table partition
+
+```
+CREATE TABLE t2 (
+  dt DATE
+)
+PARTITION BY RANGE COLUMNS (dt) (
+  PARTITION p01 VALUES LESS THAN ('2007-01-01'),
+  PARTITION p02 VALUES LESS THAN ('2008-01-01'),
+  PARTITION p03 VALUES LESS THAN ('2009-01-01'),
+  PARTITION p04 VALUES LESS THAN (MAXVALUE)
+);
+
+alter table t2 reorganize partition p04 INTO (
+PARTITION p04 VALUES LESS THAN ('2010-01-01'),
+PARTITION p05 VALUES LESS THAN (MAXVALUE)
+);
+
+show create table t2;
+```
